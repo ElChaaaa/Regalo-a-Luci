@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regalo de Navidad para mi Amor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0a2e36;
+            color: #f1f1f1;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(28, 58, 44, 0.5) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 0, 0, 0.3) 0%, transparent 20%);
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+        }
+        
+        .title {
+            font-size: 2.8rem;
+            color: #ffcc5c;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a3d9ff;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+        }
+        
+        .snowflakes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .snowflake {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        /* Gifts Section */
+        .gifts-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin: 50px 0;
+        }
+        
+        .gift-box {
+            width: 320px;
+            height: 320px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .gift-box:hover {
+            transform: translateY(-15px) scale(1.05);
+        }
+        
+        .gift-content {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #b30000, #660000);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gift-content::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .gift-box:nth-child(2) .gift-content {
+            background: linear-gradient(135deg, #00509e, #00296b);
+        }
+        
+        .gift-box:nth-child(3) .gift-content {
+            background: linear-gradient(135deg, #2d7d46, #1b5e20);
+        }
+        
+        .gift-icon {
+            font-size: 6rem;
+            margin-bottom: 25px;
+            color: #ffcc5c;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .gift-title {
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+            z-index: 2;
+            position: relative;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+        
+        .gift-description {
+            text-align: center;
+            color: #e0e0e0;
+            line-height: 1.5;
+            z-index: 2;
+            position: relative;
+            font-size: 1.1rem;
+        }
+        
+        .gift-ribbon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: #ffcc5c;
+            top: -10px;
+            right: -10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gift-ribbon i {
+            color: #b30000;
+            font-size: 1.5rem;
+        }
+        
+        /* Modales emergentes */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+            opacity: 1;
+            animation: fadeIn 0.3s forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(145deg, #1a3c47, #0a2e36);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 204, 92, 0.3);
+            animation: modalAppear 0.4s ease-out;
+        }
+        
+        @keyframes modalAppear {
+            from { transform: translateY(-50px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 204, 92, 0.5);
+        }
+        
+        .modal-title {
+            font-size: 2.2rem;
+            color: #ffcc5c;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .close-modal {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Contenido específico de cada modal */
+        /* Cartas de Amor */
+        .love-letter {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 6px solid #ff6b6b;
+            transition: transform 0.3s;
+        }
+        
+        .love-letter:hover {
+            transform: translateX(5px);
+        }
+        
+        .letter-title {
+            color: #ffcc5c;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .letter-title i {
+            font-size: 1.3rem;
+        }
+        
+        .letter-content {
+            line-height: 1.7;
+            color: #f1f1f1;
+            font-size: 1.1rem;
+        }
+        
+        /* Galería de Fotos */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .photo-item {
+            width: 100%;
+            height: 160px;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        
+        .photo-item:hover {
+            transform: scale(1.05);
+            border-color: #ffcc5c;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .gallery-description {
+            text-align: center;
+            font-style: italic;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: #a3d9ff;
+            font-size: 1.1rem;
+        }
+        
+        /* Quiz */
+        .quiz-container {
+            width: 100%;
+        }
+        
+        .quiz-question {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+        }
+        
+        .quiz-question:last-child {
+            border-bottom: none;
+        }
+        
+        .question-text {
+            margin-bottom: 15px;
+            color: #a3d9ff;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .option.selected {
+            border-color: #ffcc5c;
+            background-color: rgba(255, 204, 92, 0.1);
+        }
+        
+        .option.correct {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-color: #4CAF50;
+        }
+        
+        .option.wrong {
+            background-color: rgba(244, 67, 54, 0.2);
+            border-color: #F44336;
+        }
+        
+        .quiz-result {
+            text-align: center;
+            padding: 25px;
+            font-size: 1.6rem;
+            color: #ffcc5c;
+            margin-top: 30px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            display: none;
+            border: 2px solid rgba(255, 204, 92, 0.3);
+        }
+        
+        .check-quiz-btn {
+            background: linear-gradient(to right, #ffcc5c, #ffb347);
+            color: #0a2e36;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 30px auto 0;
+            display: block;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .check-quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #a3d9ff;
+            font-size: 1.1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+        }
+        
+        .heart {
+            color: #ff6b6b;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gifts-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            
+            .gift-box {
+                width: 100%;
+                max-width: 350px;
+                height: 300px;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .modal-content {
+                padding: 25px;
+            }
+            
+            .modal-title {
+                font-size: 1.8rem;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .photo-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .photo-item {
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .gift-title {
+                font-size: 1.6rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .photo-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">🎁 Mi Regalo de Navidad para Ti 🎁</h1>
+            <p class="subtitle">Mi amor, esta Navidad quise regalarte algo especial, hecho con todo mi cariño. Haz clic en cada regalo para descubrir lo que he preparado para ti.</p>
+            <div class="snowflakes" id="snowflakes"></div>
+        </header>
+        
+        <section class="gifts-section">
+            <!-- Regalo 1: Cartas de Amor -->
+            <div class="gift-box" id="gift1">
+                <div class="gift-content">
+                    <div class="gift-ribbon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <i class="fas fa-heart gift-icon"></i>
+                    <h2 class="gift-title">Cartas de Amor</h2>
+                    <p class="gift-description">Palabras que guardan todo lo que siento por ti</p>
+                </div>
+            </div>
+            
+            <!-- Regalo 2: Álbum de Fotos -->
+            <div class="gift-box" id="gift2">
+                <div class="gift-content">
+                    <div class="gift-ribbon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <i class="fas fa-camera gift-icon"></i>
+                    <h2 class="gift-title">Nuestros Momentos</h2>
+                    <p class="gift-description">Recuerdos que ni el tiempo puede borrar</p>
+                </div>
+            </div>
+            
+            <!-- Regalo 3: Quiz -->
+            <div class="gift-box" id="gift3">
+                <div class="gift-content">
+                    <div class="gift-ribbon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <i class="fas fa-question-circle gift-icon"></i>
+                    <h2 class="gift-title">¿Cuánto sabes de mí?</h2>
+                    <p class="gift-description">Pon a prueba cuánto me conoces</p>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Hecho con <span class="heart">❤️</span> para el amor de mi vida en esta Navidad</p>
+            <p style="margin-top: 10px;">Que esta Navidad nos traiga muchos momentos más juntos</p>
+        </footer>
+    </div>
+
+    <!-- Modal 1: Cartas de Amor -->
+    <div class="modal" id="modal1">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-heart"></i> Mis Cartas de Amor para Ti</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="love-letter">
+                <h3 class="letter-title"><i class="fas fa-feather-alt"></i> Carta 1: El día que te conocí</h3>
+                <p class="letter-content">Recuerdo perfectamente el día en que te conocí. Fue algo totalmente random, jugando Roblox, pero para mí se quedó marcado como si hubiera sido ayer. Eran las tres de la mañana, estábamos jugando Blade Ball, y desde ese momento todo empezó a cambiar.
+Cuando comenzamos a jugar juntos y luego te escuché en llamada, no pude evitar sentir una felicidad inexplicable. Me encantó hablar contigo, reír contigo, sentir esa conexión tan natural.
+Me di cuenta de que me gustabas cuando, sin darme cuenta, sentí celos por ti… ahí entendí que ya no eras solo alguien más.
+Eres tan gracioso, tan divertido, que sin proponértelo lograste que me enamorara.
+Y sí, puede parecer raro sentir tanto por alguien, pero contigo soy genuinamente feliz, y eso es lo que más me encanta de todo.</p>
+            </div>
+            
+            <div class="love-letter">
+                <h3 class="letter-title"><i class="fas fa-star"></i> Carta 2: Lo que amo de ti</h3>
+                <p class="letter-content">En esta carta quiero dejar plasmado todo lo que amo de ti.
+Amo la manera en que te enojas, y cómo me haces reír fingiendo estar molesto. Amo tus pequeños dramas y esos pucheros que me derriten, amo tu gracia natural que transforma cualquier momento en algo especial con tus chistes.
+
+Amo tu forma de ser: a veces tan callado, pero en realidad tan hablador como un loro, solo esperando que alguien te escuche de verdad. Amo nuestras películas, aunque siempre tengas que pausarlas, porque incluso ese detalle ya es parte de nuestra historia.
+
+Amo tu fragilidad cuando algo realmente te importa, porque me muestra la profundidad de tu corazón. Amo nuestras desveladas, cuando hablamos de todo lo que nos pasa y el tiempo parece detenerse. Amo cada pequeña acción que haces por mí, porque aunque puedan parecer insignificantes, para mí tienen un significado inmenso.
+
+Amo cuando me dices que me amas, porque tu voz me envuelve en una calidez única. Amo tus apodos inventados, como “mi watona”, que al principio me parecían extraños, pero ahora los guardo con cariño porque solo tú los dices.
+
+Amo verte concentrado, amo escucharte, amo estar a tu lado. Amo tu esencia, tu manera de ser, y lo más importante: amo absolutamente todo de ti.</p>
+            </div>
+            
+            <div class="love-letter">
+                <h3 class="letter-title"><i class="fas fa-globe-americas"></i> Carta 3: Nuestro futuro juntos</h3>
+                <p class="letter-content">En esta carta quiero abrirte mi corazón y compartir contigo todo lo que sueño de nuestro futuro. Un futuro tejido de momentos a tu lado, tan intensos y verdaderos que nadie podría borrarlos jamás.
+
+Imagino nuestras mañanas, despertando con el aroma del café y la ilusión de nuevos planes. Veo nuestros viajes, descubriendo el mundo juntos, disfrutando de los resorts en República Dominicana y construyendo un hogar lleno de vida en Argentina.
+
+Sueño con levantar una vida basada en amor, comprensión y metas cumplidas. Con tener dos hijos hermosos que reflejen lo mejor de ambos, y que nuestro único trabajo sea cuidar de esa felicidad que hemos creado.
+
+Contigo, todo se ilumina: el futuro se vuelve brillante, lleno de esperanza y posibilidades infinitas. No importa lo que venga, sé que juntos podemos superar cualquier desafío.
+
+Te amo más allá de lo que las palabras alcanzan a decir, porque contigo he encontrado mi razón, mi fuerza y mi destino.</p>
+            </div>
+            
+            <div class="love-letter">
+                <h3 class="letter-title"><i class="fas fa-tree"></i> Carta especial de Navidad</h3>
+                <p class="letter-content">En estas navidades quiero abrir mi corazón y compartir contigo mis más sinceros deseos. El primero y más grande de ellos es estar a tu lado, porque nada me haría más feliz que celebrar contigo este momento tan especial.
+
+Me duele pensar que mis errores impidieron que estuvieras aquí conmigo, y por eso te pido perdón de todo corazón. Aun así, deseo que disfrutes estas fiestas, aunque sea a la distancia, y que sientas mi presencia en cada detalle. No quiero que seas solo espectador: aunque en mi país no sea costumbre, aquí tienes tu regalo, creado con todo mi amor y pensado únicamente para ti.
+
+Te amo profundamente, y esta oportunidad no pienso desaprovecharla. Solo te pido que me dejes sanar lo que dañé, que me permitas demostrarte una vez más cuánto significas para mí. Ese es mi mayor deseo en esta Navidad: mejorar, crecer y ser capaz de darte lo mejor de mí, porque mi amor por ti es infinito.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Galería de Fotos -->
+    <div class="modal" id="modal2">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-camera"></i> Nuestra Galería de Momentos Especiales</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <p style="margin-bottom: 25px; color: #a3d9ff; font-size: 1.1rem; text-align: center;">Cada foto es un recuerdo preciado de nuestro tiempo juntos. Haz clic en las fotos para verlas más grandes (en una versión real, estas serían nuestras fotos).</p>
+            
+            <div class="photo-gallery">
+                <img src="img/pn.jpeg" alt="Tu y yo si estuvieramos juntos en persona" class="photo-item">
+                <img src="img/wee.jpeg" alt="Tu y yo jugando roblox" class="photo-item">
+                <img src="img/lol.jpeg" alt="Tu y yo viendo muñequitos" class="photo-item">
+                <img src="img/ti.jpeg" alt="Tu y yo para siempre" class="photo-item">
+                           </div>
+            
+            <p class="gallery-description">Estas fotos representan solo algunos de los momentos especiales que hemos compartido. No puedo esperar para llenar muchos álbumes más contigo y crear recuerdos inolvidables a tu lado. Cada instante a tu lado es un tesoro que guardo en mi corazón.</p>
+        </div>
+    </div>
+
+    <!-- Modal 3: Quiz -->
+    <div class="modal" id="modal3">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-question-circle"></i> Quiz: ¿Cuánto sabes realmente de mí?</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <p style="margin-bottom: 30px; color: #a3d9ff; font-size: 1.1rem; text-align: center;">Selecciona la respuesta correcta para cada pregunta. Al final, haz clic en el botón para ver tu resultado.</p>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    <p class="question-text">1. ¿Cuál es mi color favorito?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Azul</div>
+                        <div class="option" data-correct="false">Rojo</div>
+                        <div class="option" data-correct="false">Verde</div>
+                        <div class="option" data-correct="true">Rosa</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p class="question-text">2. ¿Cuál es mi comida favorita?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Pizza</div>
+                        <div class="option" data-correct="false">Sushi</div>
+                        <div class="option" data-correct="false">Hamburguesa</div>
+                        <div class="option" data-correct="true">Tacos</div>
+                    </div>
+                </div>
+               
+                <div class="quiz-question">
+                    <p class="question-text">3. ¿Quién se enamoró primero?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Tú</div>
+                        <div class="option" data-correct="true">Yo</div>
+                        <div class="option" data-correct="false">Al mismo tiempo</div>
+                        <div class="option" data-correct="false">Nadie, fue sorpresa</div>
+                    </div>
+                </div>
+               
+                <div class="quiz-question">
+                    <p class="question-text">4. ¿Qué actividad me gusta hacer contigo los fines de semana?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Ir de compras</div>
+                        <div class="option" data-correct="false">Comer</div>
+                        <div class="option" data-correct="true">Jugar roblox o ver peliculas</div>
+                        <div class="option" data-correct="false">Ir a conciertos</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p class="question-text">5. ¿Quién se ríe más por cualquier cosa?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Los dos</div>
+                        <div class="option" data-correct="false">Depende del día</div>
+                        <div class="option" data-correct="false">Tu</div>
+                        <div class="option" data-correct="true">Yo</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p class="question-text">6. ¿Qué animal me gustaría tener como mascota?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Un gato</div>
+                        <div class="option" data-correct="true">Un perro</div>
+                        <div class="option" data-correct="false">Un conejo</div>
+                        <div class="option" data-correct="false">Un loro</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p class="question-text">7. ¿Qué te gusta más de mi?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Mi cuerpo</div>
+                        <div class="option" data-correct="false">Mi personalidad</div>
+                        <div class="option" data-correct="true">Todo</div>
+                        <div class="option" data-correct="false">Mi cara</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p class="question-text">8. ¿Cuál es mi estación del año favorita?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Primavera</div>
+                        <div class="option" data-correct="false">Otoño</div>
+                        <div class="option" data-correct="false">Verano</div>
+                        <div class="option" data-correct="true">Invierno</div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p class="question-text">9. ¿Qué me hace enojar más?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Cuando te haces el tonto</div>
+                        <div class="option" data-correct="false">Que hables con otra</div>
+                        <div class="option" data-correct="true">Tener hambre</div>
+                        <div class="option" data-correct="false">Que no me ames</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p class="question-text">10. ¿Qué me gusta ver más?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Netflix</div>
+                        <div class="option" data-correct="true">Youtube</div>
+                        <div class="option" data-correct="false">HBO MAX</div>
+                        <div class="option" data-correct="false">Anime</div>
+                    </div>
+                </div>
+
+            <div class="quiz-question">
+                    <p class="question-text">11. ¿Qué soy para ti?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Mi esclava</div>
+                        <div class="option" data-correct="true">Mi amorcito</div>
+                        <div class="option" data-correct="false">Una perra</div>
+                        <div class="option" data-correct="false">Mi bebé</div>
+                    </div>
+                </div>
+
+                 <div class="quiz-question">
+                    <p class="question-text">12. ¿Dónde nos conocimos?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Facebook</div>
+                        <div class="option" data-correct="false">Instagram</div>
+                        <div class="option" data-correct="true">Un juego</div>
+                        <div class="option" data-correct="false">Omegle</div>
+                    </div>
+                </div>
+
+            <div class="quiz-question">
+                    <p class="question-text">13. ¿Cuál es mi artista favorito?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">Bad bunny</div>
+                        <div class="option" data-correct="false">Alvaro Díaz</div>
+                        <div class="option" data-correct="false">Theweeknd</div>
+                        <div class="option" data-correct="true">Playboicarti</div>
+                    </div>
+                </div>
+
+                 <div class="quiz-question">
+                    <p class="question-text">14. ¿Qué prefiero ver en Netlfix?</p>
+                    <div class="options">
+                        <div class="option" data-correct="true">Novelas coreanas</div>
+                        <div class="option" data-correct="false">Series</div>
+                        <div class="option" data-correct="false">Peliculas de terror</div>
+                        <div class="option" data-correct="false">Peliclas de comedia</div>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <p class="question-text">15. ¿Quieres seguir intentandolo conmigo?</p>
+                    <div class="options">
+                        <div class="option" data-correct="false">No</div>
+                        <div class="option" data-correct="false">Puede ser</div>
+                        <div class="option" data-correct="true">Si</div>
+                        <div class="option" data-correct="false">No sé</div>
+                    </div>
+                </div>
+
+            <button class="check-quiz-btn" id="check-quiz">Verificar Respuestas</button>
+            
+            <div class="quiz-result" id="quiz-result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Crear efecto de nieve
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeCount = 60;
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 12 + 5;
+                snowflake.style.width = `${size}px`;
+                snowflake.style.height = `${size}px`;
+                
+                // Posición inicial aleatoria
+                snowflake.style.left = `${Math.random() * 100}%`;
+                snowflake.style.top = `${Math.random() * -20}px`;
+                
+                // Duración de animación aleatoria
+                const duration = Math.random() * 10 + 10;
+                snowflake.style.animationDuration = `${duration}s`;
+                
+                // Retraso aleatorio
+                snowflake.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Opacidad aleatoria
+                snowflake.style.opacity = Math.random() * 0.7 + 0.3;
+                
+                snowflakesContainer.appendChild(snowflake);
+            }
+        }
+        
+        // Manejo de modales
+        function setupModals() {
+            const giftBoxes = document.querySelectorAll('.gift-box');
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close-modal');
+            
+            // Abrir modales al hacer clic en los regalos
+            giftBoxes.forEach((gift, index) => {
+                gift.addEventListener('click', function() {
+                    const modalId = `modal${index + 1}`;
+                    const modal = document.getElementById(modalId);
+                    
+                    // Cerrar cualquier modal abierto
+                    modals.forEach(m => m.classList.remove('active'));
+                    
+                    // Abrir el modal correspondiente
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+                });
+            });
+            
+            // Cerrar modales con el botón X
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto'; // Restaurar scroll
+                });
+            });
+            
+            // Cerrar modales al hacer clic fuera del contenido
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+            
+            // Cerrar modales con la tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    modals.forEach(modal => {
+                        modal.classList.remove('active');
+                    });
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // Configurar el quiz
+        function setupQuiz() {
+            const checkButton = document.getElementById('check-quiz');
+            const options = document.querySelectorAll('.option');
+            const resultDiv = document.getElementById('quiz-result');
+            
+            // Manejar clic en opciones
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Quitar selección anterior de la misma pregunta
+                    const parentQuestion = this.closest('.quiz-question');
+                    const siblings = parentQuestion.querySelectorAll('.option');
+                    siblings.forEach(sibling => {
+                        sibling.classList.remove('selected');
+                    });
+                    
+                    // Seleccionar esta opción
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Verificar respuestas
+            checkButton.addEventListener('click', function() {
+                let score = 0;
+                const totalQuestions = document.querySelectorAll('.quiz-question').length;
+                
+                // Verificar cada pregunta
+                document.querySelectorAll('.quiz-question').forEach(question => {
+                    const selectedOption = question.querySelector('.option.selected');
+                    
+                    if (selectedOption) {
+                        const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
+                        
+                        // Mostrar si es correcta o incorrecta
+                        question.querySelectorAll('.option').forEach(option => {
+                            option.classList.remove('correct', 'wrong');
+                            
+                            if (option.getAttribute('data-correct') === 'true') {
+                                option.classList.add('correct');
+                            } else if (option === selectedOption && !isCorrect) {
+                                option.classList.add('wrong');
+                            }
+                        });
+                        
+                        if (isCorrect) {
+                            score++;
+                        }
+                    } else {
+                        // Si no se seleccionó ninguna opción, mostrar la correcta
+                        question.querySelectorAll('.option').forEach(option => {
+                            if (option.getAttribute('data-correct') === 'true') {
+                                option.classList.add('correct');
+                            }
+                        });
+                    }
+                });
+                
+                // Mostrar resultado
+                const percentage = Math.round((score / totalQuestions) * 100);
+                let message = '';
+                
+                if (percentage === 100) {
+                    message = `¡PERFECTO! Obtuviste ${score}/${totalQuestions} (${percentage}%). ¡Eres increíble! Me conoces mejor que nadie. Eres el amor de mi vida y mi persona favorita. ❤️🎄`;
+                } else if (percentage >= 80) {
+                    message = `¡Excelente! Obtuviste ${score}/${totalQuestions} (${percentage}%). ¡Realmente me conoces muy bien! Me haces sentir tan especial. Te amo con todo mi corazón. 💕`;
+                } else if (percentage >= 60) {
+                    message = `¡Muy bien! Obtuviste ${score}/${totalQuestions} (${percentage}%). Me conoces bastante bien, pero aún hay cosas por descubrir. Me encanta que quieras conocerme mejor. 😊`;
+                } else if (percentage >= 40) {
+                    message = `Obtuviste ${score}/${totalQuestions} (${percentage}%). Parece que necesitamos pasar más tiempo juntos para que me conozcas mejor. ¡Es una excusa perfecta para más citas! 💕`;
+                } else {
+                    message = `Obtuviste ${score}/${totalQuestions} (${percentage}%). ¡Tenemos mucho por descubrir el uno del otro! Esto es solo el comienzo de nuestra aventura juntos. Me emociona todo lo que nos espera. 🥰`;
+                }
+                
+                resultDiv.innerHTML = message;
+                resultDiv.style.display = 'block';
+                
+                // Desplazarse al resultado
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        }
+        
+        // Inicializar cuando la página cargue
+        document.addEventListener('DOMContentLoaded', function() {
+            createSnowflakes();
+            setupModals();
+            setupQuiz();
+        });
+    </script>
+</body>
+</html>
